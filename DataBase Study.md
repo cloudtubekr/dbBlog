@@ -96,3 +96,60 @@ select SYEAR, Count(SYEAR) from dsmdb.student group by SYEAR order by SYEAR;
    ```mysql
    select name as 이름, concat(syear, '학년 ',cls,'반')as 학급 from dsmdb.student where NAME='한준호'
    ```
+
+
+
+### 11월 3일
+
+inner join 테이블과 테이블을 연결하는 것
+
+```mysql
+*. INNER JOIN은 조인하는 테이블의 ON 절의 조건이 일치하는 결과만 출력됩니다.
+
+  EX) SELECT * 
+
+           FROM A_TABLE AS A 
+
+     INNER JOIN B_TABLE AS B 
+
+    ON A_TABLE.COL1 = B_TABLE.COL1;
+
+--A_TABLE.COL1과 B_TABLE.COL1이 일치하는 데이터만 출력됩니다.
+```
+
+
+
+
+
+층수에 따라 출력
+
+```mysql
+select CASE substr(ifnull(DORMI_ROOM,'000'),1,1)
+			WHEN  '2'
+			THEN '저층'
+			WHEN '3'
+			THEN '중층'
+            WHEN '4'
+			THEN '중층'
+            WHEN '5'
+            THEN '고층'
+            ELSE '저층'
+		END as Floor, Count(*) 
+        from dsmdb.student
+        Group by FLOOR;
+```
+
+
+
+학번 이름 동아리명 동아리장 inner join 하며 출력
+
+```mysql
+select A.SNO, A.NAME, B.CLUB_NM, C.name
+  from dsmdb.student A
+ inner join dsmdb.major_club B
+ inner join dsmdb.student C
+    on A.YEAR = B.YEAR and A.CLUB_NO = B.CLUB_NO and B.CLUBHD = C.STUD_NO
+ where A.SYEAR = 1
+   and A.CLS = 1;
+```
+
